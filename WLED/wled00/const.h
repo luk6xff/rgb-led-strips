@@ -240,7 +240,7 @@
 
 #define NTP_PACKET_SIZE 48
 
-//maximum number of rendered LEDs - this does not have to match max. physical LEDs, e.g. if there are virtual busses 
+//maximum number of rendered LEDs - this does not have to match max. physical LEDs, e.g. if there are virtual busses
 #ifndef MAX_LEDS
 #ifdef ESP8266
 #define MAX_LEDS 1664 //can't rely on memory limit to limit this to 1600 LEDs
@@ -302,7 +302,7 @@
 #ifdef ESP8266
   #define LEDPIN 2    // GPIO2 (D4) on Wemod D1 mini compatible boards
 #else
-  #define LEDPIN 16   // aligns with GPIO2 (D4) on Wemos D1 mini32 compatible boards
+  #define LEDPIN 2   // GPIO2 D2 on ESP32DEV boards
 #endif
 #endif
 
