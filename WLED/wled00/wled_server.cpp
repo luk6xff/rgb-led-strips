@@ -41,7 +41,7 @@ bool captivePortal(AsyncWebServerRequest *request)
   String hostH;
   if (!request->hasHeader("Host")) return false;
   hostH = request->getHeader("Host")->value();
-  
+
   if (!isIp(hostH) && hostH.indexOf("wled.me") < 0 && hostH.indexOf(cmDNS) < 0) {
     DEBUG_PRINTLN("Captive portal");
     AsyncWebServerResponse *response = request->beginResponse(302);
@@ -68,32 +68,32 @@ void initServer()
       request->send_P(200, "text/html", PAGE_liveview);
     });
   #endif
-  
+
   //settings page
   server.on("/settings", HTTP_GET, [](AsyncWebServerRequest *request){
     serveSettings(request);
   });
-  
+
   server.on("/favicon.ico", HTTP_GET, [](AsyncWebServerRequest *request){
     if(!handleFileRead(request, "/favicon.ico"))
     {
       request->send_P(200, "image/x-icon", favicon, 156);
     }
   });
-  
+
   server.on("/sliders", HTTP_GET, [](AsyncWebServerRequest *request){
     serveIndex(request);
   });
-  
+
   server.on("/welcome", HTTP_GET, [](AsyncWebServerRequest *request){
     serveSettings(request);
   });
-  
+
   server.on("/reset", HTTP_GET, [](AsyncWebServerRequest *request){
     serveMessage(request, 200,F("Rebooting now..."),F("Please wait ~10 seconds..."),129);
     doReboot = true;
   });
-  
+
   server.on("/settings", HTTP_POST, [](AsyncWebServerRequest *request){
     serveSettings(request, true);
   });
@@ -133,7 +133,7 @@ void initServer()
       } else {
         serializeConfig(); //Save new settings to FS
       }
-    } 
+    }
     request->send(200, "application/json", F("{\"success\":true}"));
   });
   server.addHandler(handler);
@@ -141,23 +141,23 @@ void initServer()
   server.on("/version", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(200, "text/plain", (String)VERSION);
     });
-    
+
   server.on("/uptime", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(200, "text/plain", (String)millis());
     });
-    
+
   server.on("/freeheap", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(200, "text/plain", (String)ESP.getFreeHeap());
     });
-  
+
   server.on("/u", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send_P(200, "text/html", PAGE_usermod);
     });
-    
+
   server.on("/url", HTTP_GET, [](AsyncWebServerRequest *request){
     URL_response(request);
     });
-    
+
   server.on("/teapot", HTTP_GET, [](AsyncWebServerRequest *request){
     serveMessage(request, 418, F("418. I'm a teapot."), F("(Tangible Embedded Advanced Project Of Twinkling)"), 254);
     });
@@ -185,13 +185,13 @@ void initServer()
     server.on("/update", HTTP_GET, [](AsyncWebServerRequest *request){
       request->send_P(200, "text/html", PAGE_update);
     });
-    
+
     server.on("/update", HTTP_POST, [](AsyncWebServerRequest *request){
       if (Update.hasError())
       {
         serveMessage(request, 500, F("Failed updating firmware!"), F("Please check your file and retry!"), 254); return;
       }
-      serveMessage(request, 200, F("Successfully updated firmware!"), F("Please wait while the module reboots..."), 131); 
+      serveMessage(request, 200, F("Successfully updated firmware!"), F("Please wait while the module reboots..."), 131);
       doReboot = true;
     },[](AsyncWebServerRequest *request, String filename, size_t index, uint8_t *data, size_t len, bool final){
       if(!index){
@@ -210,7 +210,7 @@ void initServer()
         }
       }
     });
-    
+
     #else
     server.on("/update", HTTP_GET, [](AsyncWebServerRequest *request){
       serveMessage(request, 501, "Not implemented", F("OTA updates are disabled in this build."), 254);
@@ -244,7 +244,7 @@ void initServer()
   #ifdef WLED_ENABLE_WEBSOCKETS
   server.addHandler(&ws);
   #endif
-  
+
   //called when the url is not defined here, ajax-in; get-settings
   server.onNotFound([](AsyncWebServerRequest *request){
     DEBUG_PRINTLN("Not-Found HTTP call:");
@@ -259,7 +259,7 @@ void initServer()
       request->send(response);
       return;
     }
-    
+
     if(handleSet(request, request->url())) return;
     #ifndef WLED_DISABLE_ALEXA
     if(espalexa.handleAlexaApiCall(request)) return;
@@ -354,7 +354,7 @@ void serveMessage(AsyncWebServerRequest* request, uint16_t code, const String& h
   messageHead = headl;
   messageSub = subl;
   optionType = optionT;
-  
+
   request->send_P(code, "text/html", PAGE_msg, msgProcessor);
 }
 
@@ -367,13 +367,13 @@ String settingsProcessor(const String& var)
     getSettingsJS(optionType, buf);
     return String(buf);
   }
-  
+
   #ifdef WLED_ENABLE_DMX
 
   if (var == "DMXMENU") {
     return String(F("<form action=/settings/dmx><button type=submit>DMX Output</button></form>"));
   }
-  
+
   #endif
   if (var == "SCSS") return String(FPSTR(PAGE_settingsCss));
   return String();
@@ -395,7 +395,7 @@ String dmxProcessor(const String& var)
       mapJS += "0];";
     }
   #endif
-  
+
   return mapJS;
 }
 
@@ -404,7 +404,7 @@ void serveSettings(AsyncWebServerRequest* request, bool post)
 {
   byte subPage = 0;
   const String& url = request->url();
-  if (url.indexOf("sett") >= 0) 
+  if (url.indexOf("sett") >= 0)
   {
     if      (url.indexOf("wifi") > 0) subPage = 1;
     else if (url.indexOf("leds") > 0) subPage = 2;
@@ -448,13 +448,13 @@ void serveSettings(AsyncWebServerRequest* request, bool post)
 
     return;
   }
-  
+
   #ifdef WLED_DISABLE_MOBILE_UI //disable welcome page if not enough storage
    if (subPage == 255) {serveIndex(request); return;}
   #endif
 
   optionType = subPage;
-  
+
   switch (subPage)
   {
     case 1:   request->send_P(200, "text/html", PAGE_settings_wifi, settingsProcessor); break;
@@ -466,6 +466,6 @@ void serveSettings(AsyncWebServerRequest* request, bool post)
     case 7:   request->send_P(200, "text/html", PAGE_settings_dmx , settingsProcessor); break;
     case 8:   request->send_P(200, "text/html", PAGE_settings_um  , settingsProcessor); break;
     case 255: request->send_P(200, "text/html", PAGE_welcome); break;
-    default:  request->send_P(200, "text/html", PAGE_settings     , settingsProcessor); 
+    default:  request->send_P(200, "text/html", PAGE_settings     , settingsProcessor);
   }
 }

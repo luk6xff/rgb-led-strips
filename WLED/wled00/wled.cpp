@@ -82,7 +82,7 @@ void WiFiEvent(WiFiEvent_t event)
   #ifdef WLED_USE_ETHERNET
   char hostname[25] = "wled-";
   #endif
-  
+
   switch (event) {
 #if defined(ARDUINO_ARCH_ESP32) && defined(WLED_USE_ETHERNET)
     case SYSTEM_EVENT_ETH_START:
@@ -205,7 +205,7 @@ void WLED::loop()
   }
 
   //LED settings have been saved, re-init busses
-  //This code block causes severe FPS drop on ESP32 with the original "if (busConfigs[0] != nullptr)" conditional. Investigate! 
+  //This code block causes severe FPS drop on ESP32 with the original "if (busConfigs[0] != nullptr)" conditional. Investigate!
   if (doInitBusses) {
     doInitBusses = false;
     DEBUG_PRINTLN(F("Re-init busses."));
@@ -377,8 +377,6 @@ void WLED::setup()
     sprintf(mqttClientID + 5, "%*s", 6, escapedMac.c_str() + 6);
   }
 
-  strip.service();
-
 #ifndef WLED_DISABLE_OTA
   if (aOtaEnabled) {
     ArduinoOTA.onStart([]() {
@@ -523,10 +521,10 @@ bool WLED::initEthernet()
   }
 
   if (!ETH.begin(
-                (uint8_t) es.eth_address, 
-                (int)     es.eth_power, 
-                (int)     es.eth_mdc, 
-                (int)     es.eth_mdio, 
+                (uint8_t) es.eth_address,
+                (int)     es.eth_power,
+                (int)     es.eth_mdc,
+                (int)     es.eth_mdio,
                 (eth_phy_type_t)   es.eth_type,
                 (eth_clock_mode_t) es.eth_clk_mode
                 )) {

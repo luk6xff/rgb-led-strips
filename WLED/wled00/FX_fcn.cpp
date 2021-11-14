@@ -86,7 +86,7 @@ void WS2812FX::finalizeInit(void)
       busses.add(defCfg);
     }
   }
-  
+
   deserializeMap();
 
   _length = 0;
@@ -205,10 +205,10 @@ void WS2812FX::setPixelColor(uint16_t i, byte r, byte g, byte b, byte w)
       r -= w; g -= w; b -= w;
     }
   }
-  
+
   if (SEGLEN) {//from segment
     //color_blend(getpixel, col, _bri_t); (pseudocode for future blending of segments)
-    if (_bri_t < 255) {  
+    if (_bri_t < 255) {
       r = scale8(r, _bri_t);
       g = scale8(g, _bri_t);
       b = scale8(b, _bri_t);
@@ -255,7 +255,7 @@ void WS2812FX::setPixelColor(uint16_t i, byte r, byte g, byte b, byte w)
 //Stay safe with high amperage and have a reasonable safety margin!
 //I am NOT to be held liable for burned down garages!
 
-//fine tune power estimation constants for your setup                  
+//fine tune power estimation constants for your setup
 #define MA_FOR_ESP        100 //how much mA does the ESP use (Wemos D1 about 80mA, ESP32 about 120mA)
                               //you can set it to 0 if the ESP is powered by USB and the LEDs by external
 
@@ -314,7 +314,7 @@ void WS2812FX::estimateCurrentAndLimitBri() {
 
   uint32_t powerSum0 = powerSum;
   powerSum *= _brightness;
-  
+
   if (powerSum > powerBudget) //scale brightness down to stay in current limit
   {
     float scale = (float)powerBudget / (float)powerSum;
@@ -338,7 +338,7 @@ void WS2812FX::show(void) {
   if (callback) callback();
 
   estimateCurrentAndLimitBri();
-  
+
   // some buses send asynchronously and this method will return before
   // all of the data has been sent.
   // See https://github.com/Makuna/NeoPixelBus/wiki/ESP32-NeoMethods#neoesp32rmt-methods
@@ -377,10 +377,10 @@ void WS2812FX::trigger() {
 
 void WS2812FX::setMode(uint8_t segid, uint8_t m) {
   if (segid >= MAX_NUM_SEGMENTS) return;
-   
+
   if (m >= MODE_COUNT) m = MODE_COUNT - 1;
 
-  if (_segments[segid].mode != m) 
+  if (_segments[segid].mode != m)
   {
     _segment_runtimes[segid].reset();
     _segments[segid].mode = m;
@@ -405,7 +405,7 @@ bool WS2812FX::setEffectConfig(uint8_t m, uint8_t s, uint8_t in, uint8_t p) {
   uint8_t modePrev = seg.mode, speedPrev = seg.speed, intensityPrev = seg.intensity, palettePrev = seg.palette;
 
   bool applied = false;
-  
+
   if (applyToAllSelected) {
     for (uint8_t i = 0; i < MAX_NUM_SEGMENTS; i++)
     {
@@ -418,15 +418,15 @@ bool WS2812FX::setEffectConfig(uint8_t m, uint8_t s, uint8_t in, uint8_t p) {
         applied = true;
       }
     }
-  } 
-  
+  }
+
   if (!applyToAllSelected || !applied) {
     seg.speed = s;
     seg.intensity = in;
     seg.palette = p;
     setMode(mainSegment, m);
   }
-  
+
   if (seg.mode != modePrev || seg.speed != speedPrev || seg.intensity != intensityPrev || seg.palette != palettePrev) return true;
   return false;
 }
@@ -439,7 +439,7 @@ void WS2812FX::setColor(uint8_t slot, uint32_t c) {
   if (slot >= NUM_COLORS) return;
 
   bool applied = false;
-  
+
   if (applyToAllSelected) {
     for (uint8_t i = 0; i < MAX_NUM_SEGMENTS; i++)
     {
@@ -531,10 +531,10 @@ uint32_t WS2812FX::getPixelColor(uint16_t i)
     i += SEGMENT.offset;
     if (i >= SEGMENT.stop) i -= SEGMENT.length();
   }
-  
+
   if (i < customMappingSize) i = customMappingTable[i];
   if (i >= _length) return 0;
-  
+
   return busses.getPixelColor(i);
 }
 
@@ -666,7 +666,7 @@ void WS2812FX::makeAutoSegments() {
   } else {
     //expand the main seg to the entire length, but only if there are no other segments
     uint8_t mainSeg = getMainSegmentId();
-    
+
     if (getActiveSegmentsNum() < 2) {
       setSegment(mainSeg, 0, _length);
     }
@@ -679,7 +679,7 @@ void WS2812FX::fixInvalidSegments() {
   //make sure no segment is longer than total (sanity check)
   for (uint8_t i = 0; i < MAX_NUM_SEGMENTS; i++)
   {
-    if (_segments[i].start >= _length) setSegment(i, 0, 0); 
+    if (_segments[i].start >= _length) setSegment(i, 0, 0);
     if (_segments[i].stop  >  _length) setSegment(i, _segments[i].start, _length);
   }
 }
@@ -864,9 +864,9 @@ uint8_t WS2812FX::sin_gap(uint16_t in) {
 }
 
 /*
- * Generates a tristate square wave w/ attac & decay 
+ * Generates a tristate square wave w/ attac & decay
  * @param x input value 0-255
- * @param pulsewidth 0-127 
+ * @param pulsewidth 0-127
  * @param attdec attac & decay, max. pulsewidth / 2
  * @returns signed waveform value
  */
@@ -882,7 +882,7 @@ int8_t WS2812FX::tristate_square8(uint8_t x, uint8_t pulsewidth, uint8_t attdec)
   }
   else if (x < pulsewidth - attdec) { //max
     return a;
-  }  
+  }
   else if (x < pulsewidth) { //dec to 0
     return (int16_t) (pulsewidth - x) * a / attdec;
   }
@@ -975,7 +975,7 @@ void WS2812FX::handle_palette(void)
     }
   }
   if (SEGMENT.mode >= FX_MODE_METEOR && paletteIndex == 0) paletteIndex = 4;
-  
+
   switch (paletteIndex)
   {
     case 0: //default palette. Exceptions for specific effects above
@@ -1033,7 +1033,7 @@ void WS2812FX::handle_palette(void)
     default: //progmem palettes
       load_gradient_palette(paletteIndex -13);
   }
-  
+
   if (singleSegmentMode && paletteFade && SEGENV.call > 0) //only blend if just one segment uses FastLED mode
   {
     nblendPaletteTowardPalette(currentPalette, targetPalette, 48);
