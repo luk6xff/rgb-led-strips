@@ -300,7 +300,7 @@
 //this is merely a default now and can be changed at runtime
 #ifndef LEDPIN
 #ifdef ESP8266
-  #define LEDPIN 2    // GPIO2 (D4) on Wemod D1 mini compatible boards
+  #define LEDPIN 2    // GPIO2 (D4) on Wemos D1 mini compatible boards
 #else
   #define LEDPIN 2   // GPIO2 D2 on ESP32DEV boards
 #endif

@@ -73,7 +73,7 @@ void deserializeSegment(JsonObject elem, byte it, byte presetId)
   bool on = elem["on"] | seg.getOption(SEG_OPTION_ON);
   if (elem["on"].is<const char*>() && elem["on"].as<const char*>()[0] == 't') on = !on;
   seg.setOption(SEG_OPTION_ON, on, id);
-  
+
   JsonArray colarr = elem["col"];
   if (!colarr.isNull())
   {
@@ -99,8 +99,8 @@ void deserializeSegment(JsonObject elem, byte it, byte presetId)
         byte sz = colX.size();
         if (sz == 0) continue; //do nothing on empty array
 
-        byte cp = copyArray(colX, rgbw, 4);      
-        if (cp == 1 && rgbw[0] == 0) 
+        byte cp = copyArray(colX, rgbw, 4);
+        if (cp == 1 && rgbw[0] == 0)
           seg.setColor(i, 0, id);
         colValid = true;
       }
@@ -277,7 +277,7 @@ bool deserializeState(JsonObject root, byte callMode, byte presetId)
   if (segVar.is<JsonObject>())
   {
     int id = segVar["id"] | -1;
-    
+
     if (id < 0) { //set all selected segments
       bool didSet = false;
       byte lowestActive = 99;
@@ -534,7 +534,7 @@ void serializeInfo(JsonObject root)
   fs_info[F("pmt")] = presetsModifiedTime;
 
   root[F("ndc")] = nodeListEnabled ? (int)Nodes.size() : -1;
-  
+
   #ifdef ARDUINO_ARCH_ESP32
   #ifdef WLED_DEBUG
     wifi_info[F("txPower")] = (int) WiFi.getTxPower();
@@ -675,7 +675,7 @@ void serializePalettes(JsonObject root, AsyncWebServerRequest* request)
     CRGB ter;
     switch (i) {
       case 0: //default palette
-        setPaletteColors(curPalette, PartyColors_p); 
+        setPaletteColors(curPalette, PartyColors_p);
         break;
       case 1: //random
           curPalette.add("r");
@@ -698,7 +698,7 @@ void serializePalettes(JsonObject root, AsyncWebServerRequest* request)
         curPalette.add("c1");
         break;
       case 5: {//primary + secondary (+tert if not off), more distinct
-      
+
         curPalette.add("c1");
         curPalette.add("c1");
         curPalette.add("c1");
