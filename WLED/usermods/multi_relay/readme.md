@@ -3,12 +3,12 @@
 This usermod-v2 modification allows the connection of multiple relays each with individual delay and on/off mode.
 
 ## HTTP API
-All responses are returned as JSON. 
+All responses are returned as JSON.
 
 * Status Request: `http://[device-ip]/relays`
 * Switch Command: `http://[device-ip]/relays?switch=1,0,1,1`
 
-The number of numbers behind the switch parameter must correspond to the number of relays. The number 1 switches the relay on. The number 0 switches the relay off. 
+The number of numbers behind the switch parameter must correspond to the number of relays. The number 1 switches the relay on. The number 0 switches the relay off.
 
 * Toggle Command: `http://[device-ip]/relays?toggle=1,0,1,1`
 
@@ -89,7 +89,7 @@ Usermod can be configured in Usermods settings page.
 * `broadcast`- time in seconds between state broadcasts using MQTT
 * `HA-discovery`- enable Home Assistant auto discovery
 
-If there is no MultiRelay section, just save current configuration and re-open Usermods settings page. 
+If there is no MultiRelay section, just save current configuration and re-open Usermods settings page.
 
 Have fun - @blazoncek
 

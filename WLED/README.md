@@ -20,14 +20,12 @@ alias pio=~/.platformio/penv/bin/pio
 1. Choose: `env:esp32dev`, run `Build` and when finished `Upload` button.
 2. Or run the following command:
 ```sh
-pio run --environment esp32dev
-pio run --target upload  --environment esp32dev
+pio run --environment esp32dev && pio run --target upload  --environment esp32dev --upload-port /dev/ttyACM0
 ```
 
 * ESP8266 WEMOS D1_MINI
 1. Choose: `env:d1_mini`, run `Build` and when finished `Upload` button.
 2. Or run the following command:
 ```sh
-pio run --environment d1_mini
-pio run --target upload  --environment d1_mini
+pio run --environment d1_mini && pio run --target upload  --environment d1_mini
 ```

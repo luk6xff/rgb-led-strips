@@ -75,7 +75,7 @@ class MultiRelay : public Usermod {
     }
 
     /**
-     * switch off the strip if the delay has elapsed 
+     * switch off the strip if the delay has elapsed
      */
     void handleOffTimer() {
       unsigned long now = millis();
@@ -400,7 +400,7 @@ class MultiRelay : public Usermod {
         }
 
         if (buttonLongPressed[b] == buttonPressedBefore[b]) return handled;
-          
+
         if (now - buttonPressedTime[b] > WLED_DEBOUNCE_THRESHOLD) { //fire edge event only after 50ms without change (debounce)
           for (int i=0; i<MULTI_RELAY_MAX_RELAYS; i++) {
             if (_relay[i].button == b) {
@@ -458,7 +458,7 @@ class MultiRelay : public Usermod {
       }
       return handled;
     }
-  
+
     /**
      * addToJsonInfo() can be used to add custom entries to the /json/info part of the JSON API.
      */
@@ -574,7 +574,7 @@ class MultiRelay : public Usermod {
     /**
      * restore the changeable values
      * readFromConfig() is called before setup() to populate properties from values stored in cfg.json
-     * 
+     *
      * The function should return true if configuration was successfully loaded or false if there was no configuration.
      */
     bool readFromConfig(JsonObject &root) {
