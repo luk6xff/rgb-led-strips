@@ -8,6 +8,7 @@ Note: Board pin naming varies depending on the manufacturer. Please use the boar
 ### Connections schematics:
 ![wled_connections](img/wled_connections.jpeg)
 ![wled_connections](img/rgb-led-strips_bb.png)
+![wled_driver](img/wled-driver.png)
 
 ## PIO tool path
 If `pio` tool is not visible globally, set the alias:
